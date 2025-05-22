@@ -42,7 +42,6 @@ if __name__ == "__main__":
 '''
     return {"code": code}
 
-
 @router.get("/api/assignment/prefix-sum-problem")
 async def get_prefix_sum_problem_assignment():
     """Alias for the prefix sum problem for compatibility"""
