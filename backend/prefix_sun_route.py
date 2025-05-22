@@ -41,3 +41,21 @@ if __name__ == "__main__":
     print(f"Prefix Sum of {nums2}: {solution.prefixSum(nums2)}")  # Expected output: [5, 12, 14, 15]
 '''
     return {"code": code}
+
+
+@router.get("/api/assignment/prefix-sum-problem")
+async def get_prefix_sum_problem_assignment():
+    """Alias for the prefix sum problem for compatibility"""
+    return await get_prefix_sum_assignment()
+
+@router.post("/api/submit-assignment")
+async def submit_assignment(request: Request):
+    """Submit the completed assignment"""
+    data = await request.json()
+    code = data.get("code", "")
+    
+    # In a real application, you would save this to a database
+    # For now, we'll just log it and return a success message
+    logger.info(f"Received assignment submission: {code}")
+    
+    return {"message": "Assignment submitted successfully", "received_code": code} 
