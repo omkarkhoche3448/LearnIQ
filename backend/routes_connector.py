@@ -5,7 +5,7 @@ def register_routes(app: FastAPI):
     """
     Register additional routes to the FastAPI app.
     This function can be imported and called from app.py without modifying it directly.
-
+    
     Example usage in app.py:
     ```
     # At the end of app.py
@@ -17,4 +17,3 @@ def register_routes(app: FastAPI):
     ```
     """
     app.include_router(prefix_sum_router) 
-    
