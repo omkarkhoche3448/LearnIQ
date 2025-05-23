@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { 
-  getAssignmentById, 
-  getUserCode, 
+import {
+  getAssignmentById,
+  getUserCode,
   saveUserCode,
   markStepCompleted
 } from "@/lib/assignments";
@@ -36,24 +36,24 @@ export default function Assignment() {
   const [completedModules, setCompletedModules] = useState<string[]>([]);
   const [preparingSandbox, setPreparingSandbox] = useState(false);
   const [sandboxReady, setSandboxReady] = useState(false);
-  
+
   // Check if we're in preview mode
   const isPreviewMode = location.pathname.includes('/preview/');
 
   useEffect(() => {
     if (!id) return;
-    
+
     // Fetch the assignment data
     let assignmentId = id;
-    
+
     // In preview mode, use the actual ID without modifying it
     // The id is already correctly extracted from the URL parameter
-    const endpoint = isPreviewMode 
+    const endpoint = isPreviewMode
       ? `${API_BASE_URL}/api/assignments/${assignmentId}`
       : `${API_BASE_URL}/api/assignments/${assignmentId}`;
 
     console.log("Fetching assignment from:", endpoint);
-    
+
     fetch(endpoint, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -72,7 +72,7 @@ export default function Assignment() {
           if (data.modules && data.modules.length > 0) {
             setCode(data.modules[0].codeTemplate || "");
           }
-          
+
           // Fetch completed modules from the server unless in preview mode
           if (!isPreviewMode) {
             fetchCompletedModules(assignmentId);
@@ -86,7 +86,7 @@ export default function Assignment() {
         setError(`Failed to load assignment: ${err.message}`);
       });
   }, [id, isPreviewMode]);
-  
+
   // New function to fetch completed modules from the server
   const fetchCompletedModules = async (assignmentId: string) => {
     try {
@@ -96,15 +96,15 @@ export default function Assignment() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      
+
       if (!response.ok) {
         console.error(`Server returned ${response.status}: ${response.statusText}`);
         throw new Error(`Failed to fetch completed modules: ${response.statusText}`);
       }
-      
+
       const data = await response.json();
       console.log('Fetched completed modules:', data);
-      
+
       if (data.completedModules && Array.isArray(data.completedModules)) {
         // Convert number IDs to strings for consistency
         const moduleIds = data.completedModules.map(id => id.toString());
@@ -134,12 +134,12 @@ export default function Assignment() {
       if (isPreviewMode) {
         const updatedModules = [...completedModules, moduleId];
         setCompletedModules(updatedModules);
-        
+
         toast({
           title: "Progress saved (preview)",
           description: "Module marked as complete in preview mode only. No data saved to database.",
         });
-        
+
         console.log("Preview mode: Module marked as completed locally:", moduleId);
         return;
       }
@@ -148,7 +148,7 @@ export default function Assignment() {
       try {
         console.log('Marking module as completed:', moduleId);
         console.log('API URL:', `${API_BASE_URL}/api/assignments/${id}/modules/${moduleId}/complete`);
-        
+
         const response = await fetch(`${API_BASE_URL}/api/assignments/${id}/modules/${moduleId}/complete`, {
           method: 'POST',
           headers: {
@@ -159,15 +159,15 @@ export default function Assignment() {
             code: code // Send the current code too
           }),
         });
-        
+
         if (!response.ok) {
           console.error(`Server returned ${response.status}: ${response.statusText}`);
           throw new Error('Failed to mark module as completed');
         }
-        
+
         const data = await response.json();
         console.log('Server response for completed module:', data);
-        
+
         // Update the local state with the server response
         if (data.completedModules && Array.isArray(data.completedModules)) {
           // Convert number IDs to strings for consistency
@@ -180,23 +180,23 @@ export default function Assignment() {
           setCompletedModules(updatedCompletedModules);
           console.log('Using fallback for completed modules update:', updatedCompletedModules);
         }
-        
+
         // Keep the localStorage update for backward compatibility
         const updatedModules = [...completedModules, moduleId];
         localStorage.setItem(`completed_${id}`, JSON.stringify(updatedModules));
-        
+
         toast({
           title: "Progress saved!",
           description: "Your progress has been saved to your account.",
         });
       } catch (error) {
         console.error("Error marking module as completed:", error);
-        
+
         // Fallback to localStorage only
         const updatedModules = [...completedModules, moduleId];
         setCompletedModules(updatedModules);
         localStorage.setItem(`completed_${id}`, JSON.stringify(updatedModules));
-        
+
         toast({
           title: "Saved locally",
           description: "Progress saved locally. Sync will happen when connection is restored.",
@@ -213,10 +213,10 @@ export default function Assignment() {
         // Check if trying to access a locked module
         if (moduleIndex > 0 && moduleIndex > currentStepIndex + 1) {
           const previousModules = assignment.modules.slice(0, moduleIndex);
-          const allPreviousCompleted = previousModules.every(module => 
+          const allPreviousCompleted = previousModules.every(module =>
             completedModules.includes(module.id.toString())
           );
-          
+
           if (!allPreviousCompleted) {
             toast({
               title: "Module locked",
@@ -227,14 +227,14 @@ export default function Assignment() {
           }
         }
       }
-      
+
       // Save current code before changing modules
       if (!isPreviewMode) {
         saveUserCode(id, assignment.modules[currentStepIndex].id, code);
       }
-      
+
       setCurrentStepIndex(moduleIndex);
-      
+
       // Load code for the new module
       if (!isPreviewMode) {
         const savedCode = getUserCode(id, assignment.modules[moduleIndex].id);
@@ -247,7 +247,7 @@ export default function Assignment() {
         // In preview mode, always load the template code
         setCode(assignment.modules[moduleIndex].codeTemplate || "");
       }
-      
+
       // Clear output when switching modules
       setOutput("");
     }
@@ -274,7 +274,7 @@ export default function Assignment() {
     try {
       setPreparingSandbox(true);
       console.log("Setting up preview sandbox for assignment:", id);
-      
+
       const response = await fetch("http://localhost:8000/create/assignment", {
         method: "POST",
         headers: {
@@ -286,9 +286,9 @@ export default function Assignment() {
           requirements: assignment.requirements || [],
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         console.log("Preview sandbox created successfully");
         setSandboxReady(true);
@@ -313,14 +313,14 @@ export default function Assignment() {
 
   const handleRunCode = async () => {
     if (!assignment) return;
-    
+
     setRunning(true);
     setOutput("Running code...");
-    
+
     try {
       // Preprocess the code to remove <editable> and </editable> tags
       const processedCode = code.replace(/<editable>|<\/editable>/g, '');
-      
+
       // Check if we're in preview mode but sandbox isn't ready
       if (isPreviewMode && !sandboxReady) {
         // Try to set up sandbox if not ready yet
@@ -330,35 +330,35 @@ export default function Assignment() {
           throw new Error("Preview environment not ready. Please try again.");
         }
       }
-      
+
       // Execute the code via your API
       const response = await fetch("http://localhost:8000/execute/code", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           assignment_name: id,
-          language: assignment.language || "python", 
+          language: assignment.language || "python",
           code: processedCode
         }),
       });
-      
+
       const data = await response.json();
-      
+
       // Format the output
       let formattedOutput = "";
-      
+
       if (data.output) {
         formattedOutput += data.output;
       }
-      
+
       if (data.error || data.detail) {
         formattedOutput += "\n\n" + (data.error || data.detail);
       }
-      
+
       setOutput(formattedOutput || "No output");
-      
+
       // Check if output matches expected output
       const currentModule = assignment.modules[currentStepIndex];
       if (currentModule.expectedOutput && formattedOutput.trim() === currentModule.expectedOutput.trim()) {
@@ -366,8 +366,8 @@ export default function Assignment() {
         markModuleAsCompleted(currentModule.id.toString());
         toast({
           title: "Success!",
-          description: isPreviewMode ? 
-            "Output matches expected result! Module marked as complete (preview only)." : 
+          description: isPreviewMode ?
+            "Output matches expected result! Module marked as complete (preview only)." :
             "Your solution is correct. Great job!",
         });
       }
@@ -478,26 +478,7 @@ export default function Assignment() {
       </header>
 
       <main className="flex-1 overflow-hidden">
-        {/* {isPreviewMode && (
-          <div className="container pt-2">
-            <Alert variant="default" className="bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800">
-              <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-              <AlertTitle className="text-amber-700 dark:text-amber-400">Teacher Preview Mode</AlertTitle>
-              <AlertDescription className="text-amber-700 dark:text-amber-400">
-                You are viewing this assignment as a student would see it. Your progress is tracked locally but won't be saved to the database.
-                <br/>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="mt-2 border-amber-300 hover:bg-amber-100 dark:border-amber-700 dark:hover:bg-amber-900/30" 
-                  onClick={handleExitPreview}
-                >
-                  Exit Preview
-                </Button>
-              </AlertDescription>
-            </Alert>
-          </div>
-        )} */}
+
 
         <ResizableLayout
           leftContent={
@@ -548,11 +529,11 @@ export default function Assignment() {
           showRight={showPanels}
         />
       </main>
-      <SandboxModal 
-        isOpen={preparingSandbox} 
+      <SandboxModal
+        isOpen={preparingSandbox}
         onOpenChange={(open) => {
           if (!open) setPreparingSandbox(false);
-        }} 
+        }}
       />
     </div>
   );
