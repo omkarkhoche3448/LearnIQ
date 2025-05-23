@@ -62,7 +62,7 @@ export default function TeacherDashboard() {
         <div className="container h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <Pencil className="h-6 w-6 text-primary" />
-            <span className="font-semibold text-lg">CodeLearn Teacher</span>
+            <span className="font-semibold text-lg">LearnIQ Teacher</span>
           </Link>
           <div className="flex items-center gap-3">
             <TeacherIndicator />

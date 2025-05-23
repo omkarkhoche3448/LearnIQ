@@ -355,7 +355,7 @@ export default function Dashboard() {
             >
               <Code className="h-6 w-6 text-primary" />
             </motion.div>
-            <span className="font-semibold text-lg">CodeLearn</span>
+            <span className="font-semibold text-lg">LearnIQ</span>
           </Link>
           <div className="flex items-center gap-4">
             <nav className="hidden md:flex items-center gap-6">
@@ -736,10 +736,10 @@ export default function Dashboard() {
             >
               <Code className="h-5 w-5 text-primary" />
             </motion.div>
-            <span className="font-medium">CodeLearn</span>
+            <span className="font-medium">LearnIQ</span>
           </div>
           <div className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} CodeLearn. All rights reserved.
+            &copy; {new Date().getFullYear()} LearnIQ. All rights reserved.
           </div>
         </div>
       </motion.footer>
