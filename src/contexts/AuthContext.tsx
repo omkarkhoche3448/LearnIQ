@@ -19,7 +19,6 @@ interface AuthContextType {
   resetPassword: (token: string, newPassword: string) => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
 }
-import { API_URL } from "@/config";
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Export the useAuth hook directly instead of at the end of the file
