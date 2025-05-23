@@ -3,6 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from prefix_sum_route import router as prefix_sum_router
 
+# Create a new FastAPI app for assignments
+app = FastAPI(title="Assignment API")
+
+# Add CORS middleware to allow requests from any origin
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Include the prefix sum routes
 app.include_router(prefix_sum_router)
