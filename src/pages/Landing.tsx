@@ -67,7 +67,7 @@ export default function Landing() {
         <div className="container h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <Code className="h-6 w-6 text-primary" />
-            <span className="font-semibold text-lg">CodeLearn</span>
+            <span className="font-semibold text-lg">LearnIQ</span>
           </Link>
           
           <div className="flex items-center gap-6">
@@ -443,7 +443,7 @@ export default function Landing() {
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <h2 className="text-3xl font-bold mb-4">Why Choose CodeLearn</h2>
+              <h2 className="text-3xl font-bold mb-4">Why Choose LearnIQ</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Our platform combines interactive learning, real-time feedback, and industry-relevant projects to help you master coding skills.
               </p>
@@ -768,7 +768,7 @@ export default function Landing() {
             >
               <h2 className="text-3xl font-bold mb-4">What Our Students Say</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Join thousands of learners who have transformed their careers with CodeLearn.
+                Join thousands of learners who have transformed their careers with LearnIQ.
               </p>
             </motion.div>
             
@@ -817,7 +817,7 @@ export default function Landing() {
                       ))}
                     </motion.div>
                     <p className="italic mb-6">
-                      "CodeLearn helped me transition from a non-technical role to a full-stack developer in just 6 months. The interactive lessons made a huge difference!"
+                      "LearnIQ helped me transition from a non-technical role to a full-stack developer in just 6 months. The interactive lessons made a huge difference!"
                     </p>
                     <div className="flex items-center gap-3">
                       <motion.div 
@@ -904,7 +904,7 @@ export default function Landing() {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <Code className="h-6 w-6 text-primary" />
-                <span className="font-semibold text-lg">CodeLearn</span>
+                <span className="font-semibold text-lg">LearnIQ</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 The modern platform for learning programming through interactive lessons.
@@ -977,7 +977,7 @@ export default function Landing() {
           
           <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} CodeLearn. All rights reserved.
+              &copy; {new Date().getFullYear()} LearnIQ. All rights reserved.
             </div>
             <div className="flex items-center gap-6">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

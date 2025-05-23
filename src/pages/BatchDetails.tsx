@@ -181,7 +181,7 @@ export default function BatchDetails() {
         <div className="container h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <Code className="h-6 w-6 text-primary" />
-            <span className="font-semibold text-lg">CodeLearn</span>
+            <span className="font-semibold text-lg">LearnIQ</span>
           </Link>
         </div>
       </header>
@@ -326,7 +326,7 @@ export default function BatchDetails() {
       <footer className="border-t border-border py-6 mt-auto">
         <div class="container">
           <div class="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} CodeLearn. All rights reserved.
+            &copy; {new Date().getFullYear()} LearnIQ. All rights reserved.
           </div>
         </div>
       </footer>
